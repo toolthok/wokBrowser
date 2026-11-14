@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bar_bg">#FFFFFF</color>
+    <color name="bar_fg">#14202B</color>
+    <color name="line">#D6DCE3</color>
+</resources>
