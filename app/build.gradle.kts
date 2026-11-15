@@ -11,8 +11,19 @@ android {
         applicationId = "com.koenink.htmlviewer"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
+    }
+
+    // Keystore tetap di repo: APK dari build mana pun bertanda tangan sama,
+    // jadi bisa di-update tanpa uninstall (data tidak hilang).
+    signingConfigs {
+        getByName("debug") {
+            storeFile = rootProject.file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {

@@ -1,21 +1,35 @@
-# HTML Viewer
+# HTML Editor (viewer + editor)
 
-App Android super sederhana: membuka file HTML lokal di WebView.
+Satu app Android: editor kode (CodeMirror 6, offline) + pratinjau HTML.
 
-- Tombol **Buka**: pilih file HTML (file picker). File terakhir dibuka otomatis saat app dijalankan.
-- Tombol **Muat ulang**: baca ulang file (berguna setelah HTML diedit).
-- **Buka dengan** dari file manager juga bisa (file bertipe text/html).
-- Tombol **Ekspor** di halaman → dialog "Simpan" muncul, pilih lokasi simpan.
-- Tombol **Impor** di halaman → file picker muncul, pilih file JSON.
-- `confirm()` / `alert()` halaman tampil sebagai dialog.
-- Data `localStorage` dipisah per **nama file**. Ganti nama file = data terlihat kosong
-  (kembalikan nama lama, atau pakai Ekspor/Impor).
+## Cara pakai
+- **Buka**: pilih satu/beberapa file → jadi tab. **Simpan** menulis balik ke file asli.
+  **⋮ → Simpan sebagai…** untuk file baru / lokasi lain.
+- Mode di kanan atas: **Edit**, **Lihat** (pratinjau penuh), **Split** (tablet lebar ≥ 600dp:
+  editor + pratinjau berdampingan, pratinjau ikut berubah saat mengetik).
+- Bar simbol di atas keyboard: Tab, undo/redo, kursor ◀ ▶, `{} () [] <> "" ''`, dst, dan **Cari**.
+- Tab yang belum disimpan ditandai ●. Isi semua tab disimpan otomatis sebagai draf,
+  jadi aman kalau app tertutup.
+- Pratinjau tetap mendukung tombol **Ekspor/Impor** dan konfirmasi hapus milik catatan.html.
+  Data localStorage pratinjau dipisah per **nama file** (sama seperti versi sebelumnya).
+- "Buka dengan" dari file manager: HTML → pratinjau, file teks lain → editor.
+
+Syntax highlight: HTML, CSS, JS/TS, JSON, Markdown, Python (sisanya teks biasa).
+Batas file: 3 MB, hanya teks UTF-8. Akhiran baris CRLF dipertahankan.
 
 ## Build (GitHub Actions)
+1. Push project ke repo GitHub (branch `main`).
+2. Tab **Actions** → **Build APK** → unduh artifact `HtmlViewer-debug` → ekstrak `app-debug.apk`.
+3. Install di tablet.
 
-1. Push project ini ke repo GitHub (branch `main`).
-2. Tab **Actions** → workflow **Build APK** (jalan otomatis saat push, atau Run workflow).
-3. Selesai → buka run-nya → **Artifacts** → unduh `HtmlViewer-debug` → ekstrak → `app-debug.apk`.
-4. Install di tablet (izinkan "install dari sumber tidak dikenal").
+`debug.keystore` ada di repo, jadi APK dari semua build bertanda tangan sama dan bisa
+di-update langsung tanpa uninstall.
 
-Tidak butuh gradle wrapper; workflow memasang Gradle 8.9 sendiri.
+> Install pertama atas app HtmlViewer lama: tanda tangan lama berbeda, jadi Android menolak update.
+> Ekspor catatan dulu (JSON), uninstall app lama, install ini, lalu Impor.
+
+## Mengubah editor (opsional)
+`editor-src/` berisi sumber editor web. Hasil build sudah ada di
+`app/src/main/assets/editor.html`; ubah hanya bila perlu:
+
+    cd editor-src && npm install && npm run build
